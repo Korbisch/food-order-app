@@ -49,7 +49,14 @@ const Cart = (props) => {
           >
             Close
           </button>
-          {hasItems && <button className={classes.button}>Order Now</button>}
+          {hasItems && (
+            <button
+              className={classes.button}
+              onClick={console.log("Order received")}
+            >
+              Order Now
+            </button>
+          )}
         </div>
       </div>
     </Modal>
