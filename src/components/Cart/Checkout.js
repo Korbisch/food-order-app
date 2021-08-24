@@ -20,11 +20,16 @@ const Checkout = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    const enteredName = nameInputRef.current.value;
+    const enteredStreet = streetInputRef.current.value;
+    const enteredPostal = postalInputRef.current.value;
+    const enteredCity = cityInputRef.current.value;
+
     setFormInputValidity({
-      name: !isEmpty(nameInputRef.current.value),
-      street: !isEmpty(streetInputRef.current.value),
-      postal: isFiveChars(postalInputRef.current.value),
-      city: !isEmpty(cityInputRef.current.value),
+      name: !isEmpty(enteredName),
+      street: !isEmpty(enteredStreet),
+      postal: isFiveChars(enteredPostal),
+      city: !isEmpty(enteredCity),
     });
 
     const formIsValid =
@@ -39,6 +44,12 @@ const Checkout = (props) => {
     }
 
     // submit cart data to firebase
+    props.onConfirmOrder({
+      enteredName,
+      enteredStreet,
+      enteredPostal,
+      enteredCity,
+    });
   };
 
   // controls css classes for invalid form inputs
