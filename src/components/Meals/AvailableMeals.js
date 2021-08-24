@@ -4,10 +4,12 @@ import Card from "../UI/Card";
 import { useCallback, useEffect, useState } from "react";
 
 const AvailableMeals = () => {
-  // const [meals, setMeals] = useState([]);
   const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState();
 
   const fetchMeals = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://react-http-requests-a84ea-default-rtdb.europe-west1.firebasedatabase.app/meals.json"
@@ -29,9 +31,11 @@ const AvailableMeals = () => {
         });
       }
       setMeals(loadedMeals);
+      setHttpError(false);
     } catch (error) {
-      console.log(error.message);
+      setHttpError(error.message);
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -51,7 +55,9 @@ const AvailableMeals = () => {
   return (
     <section className={classes.meals}>
       <Card>
-        <ul>{mealsList}</ul>
+        {httpError && <p>{httpError}</p>}
+        {isLoading && <p>Loading Meals...</p>}
+        {!isLoading && <ul>{mealsList}</ul>}
       </Card>
     </section>
   );
